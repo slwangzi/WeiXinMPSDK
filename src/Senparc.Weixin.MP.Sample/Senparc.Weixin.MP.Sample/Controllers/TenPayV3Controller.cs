@@ -83,7 +83,7 @@ namespace Senparc.Weixin.MP.Sample.Controllers
                 return RedirectToAction("ProductList");
             }
 
-            var returnUrl = string.Format("https://sdk.weixin.senparc.com/TenPayV3/JsApi");
+            var returnUrl = string.Format("https://www.81huiyi.com/TenPayV3/JsApi");
             var state = string.Format("{0}|{1}", productId, hc);
             var url = OAuthApi.GetAuthorizeUrl(TenPayV3Info.AppId, returnUrl, state, OAuthScope.snsapi_userinfo);
 
@@ -813,7 +813,7 @@ namespace Senparc.Weixin.MP.Sample.Controllers
                 return Content("商品信息不存在，或非法进入！2004");
             }
 
-            var url = string.Format("http://sdk.weixin.senparc.com/TenPayV3/JsApi?productId={0}&hc={1}&t={2}", productId,
+            var url = string.Format("http://www.81huiyi.com/TenPayV3/JsApi?productId={0}&hc={1}&t={2}", productId,
                 product.GetHashCode(), DateTime.Now.Ticks);
 
             BitMatrix bitMatrix;
@@ -895,7 +895,7 @@ namespace Senparc.Weixin.MP.Sample.Controllers
 
                     //设置成功页面（也可以不设置，支付成功后默认返回来源地址）
                     var returnUrl =
-                        string.Format("https://sdk.weixin.senparc.com/TenpayV3/H5PaySuccess?productId={0}&hc={1}",
+                        string.Format("https://www.81huiyi.com/TenpayV3/H5PaySuccess?productId={0}&hc={1}",
                             productId, hc);
 
                     var mwebUrl = result.mweb_url;

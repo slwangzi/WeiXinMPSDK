@@ -16,7 +16,7 @@ namespace Senparc.Weixin.MP.Sample.Controllers
             var reserved = DateTime.Now.Ticks.ToString();
             Session["WeixinSubscribeMsgReserved"] = reserved;
             string templateId = "63l8YSI2uYqlZwb8dkMSy2Lp8caHcaWc2Id0b_XYvtM";//订阅消息模板ID，登录公众平台后台，在接口权限列表处可查看订阅模板ID
-            var returnUrl = "https://sdk.weixin.senparc.com/SubscribeMsg/Result";
+            var returnUrl = "https://www.81huiyi.com/SubscribeMsg/Result";
             var url = TemplateApi.GetSubscribeMsgUrl(base.AppId, 1, templateId, returnUrl.UrlEncode(), reserved);
             return Redirect(url);
         }

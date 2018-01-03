@@ -66,7 +66,7 @@ namespace Senparc.Weixin.MP.Sample.Controllers
                     keyword1 = new TemplateDataItem(openId),
                     keyword2 = new TemplateDataItem("网页测试"),
                     keyword3 = new TemplateDataItem(DateTime.Now.ToString("O")),
-                    remark = new TemplateDataItem("更详细信息，请到Senparc.Weixin SDK官方网站（http://sdk.weixin.senparc.com）查看！")
+                    remark = new TemplateDataItem("更详细信息，请到Senparc.Weixin SDK官方网站（http://www.81huiyi.com）查看！")
                 };
 
                 var miniProgram = new TempleteModel_MiniProgram()
@@ -90,7 +90,7 @@ namespace Senparc.Weixin.MP.Sample.Controllers
         public ActionResult DeadLockTest()
         {
             var result =
-                Senparc.Weixin.HttpUtility.RequestUtility.HttpGetAsync("https://sdk.weixin.senparc.com",
+                Senparc.Weixin.HttpUtility.RequestUtility.HttpGetAsync("https://www.81huiyi.com",
                     cookieContainer: null).Result;
             return Content(result);
         }
@@ -101,7 +101,7 @@ namespace Senparc.Weixin.MP.Sample.Controllers
         /// <returns></returns>
         public async Task<ActionResult> NoDeadLockTest()
         {
-            var result = await Senparc.Weixin.HttpUtility.RequestUtility.HttpGetAsync("https://sdk.weixin.senparc.com",
+            var result = await Senparc.Weixin.HttpUtility.RequestUtility.HttpGetAsync("https://www.81huiyi.com",
                 cookieContainer: null);
             return Content(result);
         }

@@ -77,7 +77,7 @@ namespace Senparc.Weixin.MP.Sample.Controllers
             }
 
             //获取服务器外网IP
-            ViewData["IP"] = GetIP() ?? "使用CMD命令ping sdk.weixin.senparc.com";
+            ViewData["IP"] = GetIP() ?? "使用CMD命令ping www.81huiyi.com";
 
             return View(result);
         }
