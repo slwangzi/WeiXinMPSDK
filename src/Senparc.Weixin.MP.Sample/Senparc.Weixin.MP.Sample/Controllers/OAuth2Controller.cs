@@ -19,6 +19,7 @@ using Senparc.Weixin.HttpUtility;
 using Senparc.Weixin.MP.AdvancedAPIs;
 using Senparc.Weixin.MP.AdvancedAPIs.OAuth;
 using Senparc.Weixin.MP.CommonAPIs;
+using Senparc.Weixin.MP.MvcExtension;
 
 namespace Senparc.Weixin.MP.Sample.Controllers
 {
@@ -66,12 +67,12 @@ namespace Senparc.Weixin.MP.Sample.Controllers
                 return Content("您拒绝了授权！");
             }
 
-            if (state != Session["State"] as string)
+            if (state != Session["State"] as string && !state.Contains("|"))
             {
                 //这里的state其实是会暴露给客户端的，验证能力很弱，这里只是演示一下，
                 //建议用完之后就清空，将其一次性使用
                 //实际上可以存任何想传递的数据，比如用户ID，并且需要结合例如下面的Session["OAuthAccessToken"]进行验证
-                return Content("验证失败！请从正规途径进入！");
+                return Content("UserInfoCallback,state：" + state + "，验证失败！请从正规途径进入！");
             }
 
             OAuthAccessTokenResult result = null;
@@ -125,12 +126,12 @@ namespace Senparc.Weixin.MP.Sample.Controllers
                 return Content("您拒绝了授权！");
             }
 
-            if (state != Session["State"] as string)
+            if (state != Session["State"] as string && !state.Contains("|"))
             {
                 //这里的state其实是会暴露给客户端的，验证能力很弱，这里只是演示一下，
                 //建议用完之后就清空，将其一次性使用
                 //实际上可以存任何想传递的数据，比如用户ID，并且需要结合例如下面的Session["OAuthAccessToken"]进行验证
-                return Content("验证失败！请从正规途径进入！");
+                return Content("BaseCallback,state：" + state + "，验证失败！请从正规途径进入！");
             }
 
             //通过，用code换取access_token
@@ -152,6 +153,9 @@ namespace Senparc.Weixin.MP.Sample.Controllers
                 //已关注，可以得到详细信息
                 userInfo = OAuthApi.GetUserInfo(result.access_token, result.openid);
 
+                Session["WxOpenId"] = userInfo.openid;
+                Session["NickName"] = userInfo.nickname;
+
                 if (!string.IsNullOrEmpty(returnUrl))
                 {
                     return Redirect(returnUrl);
@@ -165,7 +169,7 @@ namespace Senparc.Weixin.MP.Sample.Controllers
             {
                 //未关注，只能授权，无法得到详细信息
                 //这里的 ex.JsonResult 可能为："{\"errcode\":40003,\"errmsg\":\"invalid openid\"}"
-                return Content("用户已授权，授权Token：" + result);
+                return Content($"用户已授权,openid={result.openid}，授权Token：" + result+" , ex:"+ ex.Message);
             }
         }
 
@@ -185,5 +189,57 @@ namespace Senparc.Weixin.MP.Sample.Controllers
 
             return Content(msg);
         }
+
+        #region Authed
+        public ActionResult NoAuth()
+        {
+            return View();
+        }
+
+        [OAuth2]
+        public ActionResult Authed()
+        {
+            ViewBag.WxOpenId = Session["WxOpenId"].ToString();
+            ViewBag.NickName = Session["NickName"].ToString();
+            return View();
+        }
+
+
+        #endregion
+
+        #region OAuth登录
+        /*
+         1.先判断是否登录
+         */
+        #endregion
+
+        #region QQ
+
+        #endregion
     }
+
+    #region SenparcOAuthAttribute
+    public class OAuth2Attribute : SenparcOAuthAttribute
+    { 
+        public OAuth2Attribute():base(ConfigInfo.appId, "/OAuth2/UserInfoCallback")
+        {
+
+        }
+        /// <summary>
+        /// AppId
+        /// </summary>
+        /// <param name="appId"></param>
+        /// <param name="oauthCallbackUrl">网站内路径（如：/TenpayV3/OAuthCallback），以/开头！当前页面地址会加在Url中的returlUrl=xx参数中</param>
+        public OAuth2Attribute(string appId, string oauthCallbackUrl, OAuthScope oauthScope = OAuthScope.snsapi_userinfo) : base(ConfigInfo.appId, oauthCallbackUrl, oauthScope)
+        {
+
+        }
+
+        public override bool IsLogined(HttpContextBase httpContext)
+        {
+            return httpContext.Session["WxOpenId"] != null;
+        }
+
+    }
+    #endregion
 }

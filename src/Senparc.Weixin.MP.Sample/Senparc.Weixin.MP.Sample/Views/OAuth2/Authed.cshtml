@@ -1,0 +1,22 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>验证微信登录</title>
+</head>
+<body>
+
+    <p>
+    </p>
+    <h2>看到当前页说明Oauth2.0授权成功！</h2>
+    <p>
+        WxOpenId=@ViewBag.WxOpenId <br />
+        NickName=@Session["NickName"]
+    </p>
+</body>
+</html>

@@ -1,0 +1,20 @@
+﻿@{
+    Layout=null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width; initial-scale=1.0" />
+    <title></title>
+    <script src="~/Scripts/jquery-1.7.1.min.js"></script>
+</head>
+<body>
+    <h1></h1>
+    <div>
+       <a href="@Url.Action("NoAuth","OAuth2")">无需授权，可查看</a>
+        <br />
+        <a href="@Url.Action("Authed","OAuth2")">需要授权，可查看</a> 
+    </div>
+
+</body>
+</html>

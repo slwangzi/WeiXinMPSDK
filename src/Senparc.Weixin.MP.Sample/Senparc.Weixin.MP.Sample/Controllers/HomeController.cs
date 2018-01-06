@@ -112,5 +112,20 @@ namespace Senparc.Weixin.MP.Sample.Controllers
             var accessTokenBags = AccessTokenContainer.GetAllItems();
             return Json(accessTokenBags, JsonRequestBehavior.AllowGet);
         }
+
+        #region Test
+        public ActionResult Test()
+        {
+
+            //var returnUrl = string.Format("https://www.81huiyi.com/OAuth/Authed");
+            //var state = "JeffreySu-" + DateTime.Now.Millisecond;
+            //var url = OAuthApi.GetAuthorizeUrl(ConfigInfo.appId, returnUrl, state, OAuthScope.snsapi_base);
+            //return Redirect(url);
+
+            var state = "JeffreySu-" + DateTime.Now.Millisecond;//随机数，用于识别请求可靠性
+            Session["State"] = state;                           //储存随机数到Session
+            return View();
+        }
+        #endregion
     }
 }
